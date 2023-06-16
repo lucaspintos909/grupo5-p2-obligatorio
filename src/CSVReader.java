@@ -15,7 +15,8 @@ public class CSVReader {
         int contador = 0;
         Piloto[] pilotos = new Piloto[20];
         while ((linea = br.readLine()) != null) {
-            pilotos[contador] = new Piloto(linea);
+
+            pilotos[contador] = new Piloto(linea.toLowerCase());
             //System.out.println(linea);
             contador++;
         }
@@ -24,21 +25,19 @@ public class CSVReader {
 
     public static Tweet[] readTweets() throws IOException {
 
-        String path = "/home/lpintos/proyectos/grupo5-p2-tads/src/f1_dataset_test.csv";
+        String path = "/home/lpintos/proyectos/grupo5-p2-obligatorio/src/f1_dataset.csv";
         String linea;
         BufferedReader br = new BufferedReader(new FileReader(path));
-        Scanner sc = new Scanner(new FileReader(path));
-        sc.useDelimiter(",");
 
         int segunda = 0;
         int tweets_contador = 0;
 
-        Tweet[] tweets = new Tweet[1000000];
+        Tweet[] tweets = new Tweet[650_000];
 
         while ((linea = br.readLine()) != null) {
             String[] tweetAIngresar;
             segunda++;
-            if (segunda == 1) {
+            if (segunda == 0) {
                 /*tweets[0] = linea;*/
                 tweets_contador++;
                 continue;
@@ -55,7 +54,10 @@ public class CSVReader {
 
             }
             tweetAIngresar = linea.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]), tweetAIngresar[11], tweetAIngresar[12], Boolean.parseBoolean(tweetAIngresar[13]), tweetAIngresar[9]);
+            if (tweetAIngresar.length != 14){
+                continue;
+            }
+            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]), tweetAIngresar[10].toLowerCase(), tweetAIngresar[12], Boolean.parseBoolean(tweetAIngresar[13]), tweetAIngresar[9]);
             tweets_contador++;
         }
 
