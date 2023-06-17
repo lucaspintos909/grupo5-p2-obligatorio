@@ -111,8 +111,16 @@ public class Sistema {
         boolean salir=false;
         int opcion;
 
-        while (!salir){
 
+
+        long startTime = System.nanoTime();
+        Sistema sistema = new Sistema();
+        long endTime = System.nanoTime();
+        double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+        double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
+
+        while (!salir){
+            System.out.println();
             System.out.println("1-Top 10 pilotos mencionados");
             System.out.println("2-Top 15 usuarios con más tweets");
             System.out.println("3-Cantidad de hashtags distintos para un día dado");
@@ -120,19 +128,11 @@ public class Sistema {
             System.out.println("5-Top 7 cuentas con más favoritos");
             System.out.println("6-Cantidad de tweets con una palabra o frase específicos");
             System.out.println("7-Salir");
+            System.out.println();
 
             System.out.println("introduce un numero: ");
             opcion= sn.nextInt();
 
-            if (opcion==7){
-                break;
-            }
-
-            Sistema sistema = new Sistema();
-            long startTime = System.nanoTime();
-            long endTime = System.nanoTime();
-            double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-            double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
 
             switch (opcion){
                 case 1:
@@ -144,8 +144,9 @@ public class Sistema {
                     System.out.println("Introduzca el año ");
                     año= String.valueOf(sn.nextInt());
                     System.out.println("Top 10 pilotos mencionados...");
+                    System.out.println();
                     sistema.top10PilotosActivos(mes,año);
-
+                    System.out.println();
                     System.out.println("Top 10 pilotos mencionados. Duración: " + roundedDuration + " segundos.");
                     break;
                 case 2:
@@ -157,6 +158,9 @@ public class Sistema {
                 case 5:
                     break;
                 case 6:
+                    break;
+                case 7:
+                    salir=true;
                     break;
                 default:
                     System.out.println("Las opciones son entre 1 y 7");
