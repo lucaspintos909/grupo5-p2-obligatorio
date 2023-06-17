@@ -9,7 +9,7 @@ import entities.Piloto;
 
 public class CSVReader {
     public static Piloto[] readDrivers() throws IOException {
-        String path = "/home/lpintos/proyectos/grupo5-p2-obligatorio/src/drivers.txt";
+        String path = "C:\\Users\\Juanm\\Desktop\\grupo5-p2-obligatorio\\src\\drivers.txt";
         String linea;
         BufferedReader br = new BufferedReader(new FileReader(path));
         int contador = 0;
@@ -25,7 +25,7 @@ public class CSVReader {
 
     public static Tweet[] readTweets() throws IOException {
 
-        String path = "/home/lpintos/proyectos/grupo5-p2-obligatorio/src/f1_dataset.csv";
+        String path = "C:\\Users\\Juanm\\Desktop\\grupo5-p2-obligatorio\\src\\f1_dataset.csv";
         String linea;
         BufferedReader br = new BufferedReader(new FileReader(path));
 

@@ -2,6 +2,8 @@ import entities.Piloto;
 import uy.edu.um.prog2.adt.Hash.Hash;
 import entities.Tweet;
 
+import java.util.Scanner;
+
 public class Sistema {
     Tweet[] tweets;
     Piloto[] pilotos;
@@ -104,16 +106,67 @@ public class Sistema {
     }
 
     public static void main(String[] args) {
-        Sistema sistema = new Sistema();
-        long startTime = System.nanoTime();
-        System.out.println("top10PilotosActivos...");
 
-        sistema.top10PilotosActivos("11", "2021");
+        Scanner sn=new Scanner(System.in);
+        boolean salir=false;
+        int opcion;
 
-        long endTime = System.nanoTime();
-        double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-        double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
-        System.out.println("top10PilotosActivos. Duración: " + roundedDuration + " segundos.");
+        while (!salir){
+
+            System.out.println("1-Top 10 pilotos mencionados");
+            System.out.println("2-Top 15 usuarios con más tweets");
+            System.out.println("3-Cantidad de hashtags distintos para un día dado");
+            System.out.println("4-Hashtag más usado para un día dado");
+            System.out.println("5-Top 7 cuentas con más favoritos");
+            System.out.println("6-Cantidad de tweets con una palabra o frase específicos");
+            System.out.println("7-Salir");
+
+            System.out.println("introduce un numero: ");
+            opcion= sn.nextInt();
+
+            if (opcion==7){
+                break;
+            }
+
+            Sistema sistema = new Sistema();
+            long startTime = System.nanoTime();
+            long endTime = System.nanoTime();
+            double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+            double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
+
+            switch (opcion){
+                case 1:
+                    String mes;
+                    String año;
+
+                    System.out.println("Introduzca el mes ");
+                    mes= String.valueOf(sn.nextInt());
+                    System.out.println("Introduzca el año ");
+                    año= String.valueOf(sn.nextInt());
+                    System.out.println("Top 10 pilotos mencionados...");
+                    sistema.top10PilotosActivos(mes,año);
+
+                    System.out.println("Top 10 pilotos mencionados. Duración: " + roundedDuration + " segundos.");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+                    System.out.println("Las opciones son entre 1 y 7");
+
+            }
+
+
+
+        }
+        System.out.println("Bye");
 
     }
 }
