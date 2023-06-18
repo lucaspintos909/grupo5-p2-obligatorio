@@ -1,17 +1,13 @@
 package entities;
 
 public class User {
-    private final int id;
     private final String name;
-    private int cantidadTweets = 0;
+    private int cantidadTweets = 1;
+    private boolean verificado = false;
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name, boolean verificado) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
+        this.verificado = verificado;
     }
 
     public String getName() {
