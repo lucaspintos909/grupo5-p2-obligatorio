@@ -10,6 +10,8 @@ public class LinkedList<T> implements MyStack<T>, MyQueue<T>, Mylist<T> {
     public Nodo<T> head;
     public Nodo<T> tail;
 
+    public int size;
+
     @Override
     public void add(T value) {
         addLast(value);
@@ -29,6 +31,7 @@ public class LinkedList<T> implements MyStack<T>, MyQueue<T>, Mylist<T> {
                 this.tail.next = newNode;
             }
             this.tail = newNode;
+            size++;
         }
     }
 
@@ -46,6 +49,7 @@ public class LinkedList<T> implements MyStack<T>, MyQueue<T>, Mylist<T> {
                 newNode.next = this.head;
             }
             this.head = newNode;
+            size++;
         }
     }
 
@@ -185,6 +189,7 @@ public class LinkedList<T> implements MyStack<T>, MyQueue<T>, Mylist<T> {
                 anterior.next = siguiente.next;
                 siguiente.next = null;
             }
+            size--;
         }
     }
 
