@@ -1,6 +1,8 @@
 import entities.Piloto;
 import uy.edu.um.prog2.adt.Hash.Hash;
 import entities.Tweet;
+import entities.User;
+import java.util.Scanner;
 
 public class Sistema {
     Tweet[] tweets;
@@ -102,18 +104,110 @@ public class Sistema {
             System.out.println((i + 1) + " -> " + pilotos[i].getName() + ": " + contadorPilotos.get(pilotos[i].getName()).getValue());
         }
     }
+    public void Cantidad_de_tweets(String palabra) {
+
+        Integer contador_palbras=0;
+        for (Tweet tweet : tweets) {
+            if (tweet == null) {
+                continue;
+            }
+            String tweetText = tweet.getContent();
+            boolean esMencionado = tweetText.contains(palabra);
+            if (esMencionado){
+                contador_palbras++;
+            }
+
+            }
+        System.out.println(contador_palbras+" es el numero de twwets que contienen: "+palabra);
+        }
+
+
+
+
+
 
     public static void main(String[] args) {
-        Sistema sistema = new Sistema();
+
+        Scanner sn=new Scanner(System.in);
+        boolean salir=false;
+        int opcion;
+
+
+
         long startTime = System.nanoTime();
-        System.out.println("top10PilotosActivos...");
-
-        sistema.top10PilotosActivos("11", "2021");
-
+        Sistema sistema = new Sistema();
         long endTime = System.nanoTime();
         double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
         double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
-        System.out.println("top10PilotosActivos. Duración: " + roundedDuration + " segundos.");
+        System.out.println("Duración en leer el CSV "+roundedDuration+" Segundos");
+        System.out.println();
+
+        while (!salir){
+            System.out.println();
+            System.out.println("1-Top 10 pilotos mencionados");
+            System.out.println("2-Top 15 usuarios con más tweets");
+            System.out.println("3-Cantidad de hashtags distintos para un día dado");
+            System.out.println("4-Hashtag más usado para un día dado");
+            System.out.println("5-Top 7 cuentas con más favoritos");
+            System.out.println("6-Cantidad de tweets con una palabra o frase específicos");
+            System.out.println("7-Salir");
+            System.out.println();
+
+            System.out.println("introduce un numero: ");
+            opcion= sn.nextInt();
+
+
+            switch (opcion){
+                case 1:
+                    String mes;
+                    String año;
+
+                    System.out.println("Introduzca el mes ");
+                    mes= String.valueOf(sn.nextInt());
+                    System.out.println("Introduzca el año ");
+                    año= String.valueOf(sn.nextInt());
+                    System.out.println("Top 10 pilotos mencionados...");
+                    System.out.println();
+                    long startTime_1 = System.nanoTime();
+                    sistema.top10PilotosActivos(mes,año);
+                    long endTime_1 = System.nanoTime();
+                    double durationInSeconds_1 = (endTime_1 - startTime_1) / 1_000_000_000.0;
+                    double roundedDuration_1 = Math.round(durationInSeconds_1 * 10.0) / 10.0;
+                    System.out.println();
+                    System.out.println("Top 10 pilotos mencionados. Duración: " + roundedDuration_1 + " segundos.");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    String palabra;
+                    System.out.println("introduzca la palbra o frase");
+                    palabra= sn.next();
+                    long startTime_6 = System.nanoTime();
+                    sistema.Cantidad_de_tweets(palabra);
+                    long endTime_6 = System.nanoTime();
+                    double durationInSeconds_6 = (endTime_6 - startTime_6) / 1_000_000_000.0;
+                    double roundedDuration_6 = Math.round(durationInSeconds_6 * 10.0) / 10.0;
+                    System.out.println();
+                    System.out.println("Cantidad de tweets con una palabra o frase específicos. Duración: "+roundedDuration_6+" segundos");
+                    break;
+                case 7:
+                    salir=true;
+                    break;
+                default:
+                    System.out.println("Las opciones son entre 1 y 7");
+
+            }
+
+
+
+        }
+        System.out.println("Bye");
 
     }
 }
