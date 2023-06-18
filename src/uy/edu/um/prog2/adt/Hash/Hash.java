@@ -50,8 +50,8 @@ public class Hash<K, T> implements MyHash<K, T> {
         }
     }
 
-    @Override
-    public HashNode<K, T> get(K key) {
+
+    /*public HashNode<K, T> get(K key) {
         int position = hashCode(key);
         while (hash[position] != null) {
             if (hash[position].getKey().equals(key)) {
@@ -64,7 +64,59 @@ public class Hash<K, T> implements MyHash<K, T> {
             position = (position + 1) % hashSize;
         }
         return null;
+    }*/
+    @Override
+    public HashNode<K, T> get(K key) {
+        int position = hashCode(key);
+
+        while (hash[position] != null) {
+            if (hash[position].getKey().equals(key)) {
+                return hash[position];
+            }
+
+            position++;
+            if (position >= hash.length) {
+                position = 0;
+            }
+        }
+
+        return null;  // Retorna null si la clave no se encuentra.
     }
+
+    public void put(K key, T value) {
+
+        int index = hashCode(key);
+
+        while (hash[index] != null && !key.equals(hash[index].getKey())) {
+            index++;
+            if (index >= hash.length) index = 0;
+        }
+
+        if (hash[index] == null) {
+            actualSize++;
+        }
+
+        hash[index] = new HashNode<>(key, value);
+    }
+
+    public T putIfAbsent(K key, T value) {
+        int index = hashCode(key);
+
+        while (hash[index] != null && !key.equals(hash[index].getKey())) {
+            index++;
+            if (index >= hash.length) index = 0;
+        }
+
+        if (hash[index] == null) {
+            hash[index] = new HashNode<>(key, value);
+            actualSize++;
+        } else if (key.equals(hash[index].getKey())) {
+            // Si el valor ya existe, devolver el valor existente sin hacer ninguna modificación
+            return value;
+        }
+        return null;
+    }
+
 
     @Override
     public void add(K key, T value) throws FullHashException {
