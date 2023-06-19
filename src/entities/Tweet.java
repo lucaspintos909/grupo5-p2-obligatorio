@@ -20,7 +20,6 @@ public class Tweet {
         this.date = date;
         this.user = user;
         this.hashtags = hashtag;
-        System.out.println();
     }
 
     public long getId() {
