@@ -112,7 +112,7 @@ public class Hash<K, T> implements MyHash<K, T> {
             actualSize++;
         } else if (key.equals(hash[index].getKey())) {
             // Si el valor ya existe, devolver el valor existente sin hacer ninguna modificación
-            return value;
+            return hash[index].getValue();
         }
         return null;
     }
