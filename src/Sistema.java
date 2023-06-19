@@ -4,6 +4,7 @@ import uy.edu.um.prog2.adt.LinkedList.LinkedList;
 import entities.Tweet;
 import entities.User;
 
+
 import java.util.Scanner;
 
 public class Sistema {
@@ -113,6 +114,34 @@ public class Sistema {
         }
         System.out.println(contador_palbras + " es el numero de twwets que contienen: " + palabra);
     }
+    public void Cantidad_de_hashtags_distintos_para_un_día_dado(String anio,String mes,String dia){
+
+        Hash<String[], Integer> contadorHashtag = new Hash<>(10000);
+        for (Tweet tweet : tweets) {
+            if (tweet == null) {
+                continue;
+            }
+            try {
+                contadorHashtag.add(tweet.getHashtags(), 0);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            /* Para que no agarre las comas que pueda haber en el texto */
+            String[] fecha = tweet.getDate().split("-");
+            boolean fechaTweetCorrecta = fecha[0].contains(anio) && fecha[1].contains(mes)&&fecha[2].contains(dia);
+            /*System.out.println(tweet.getDate());*/
+            String[]hashtag= tweet.getHashtags();
+
+            if (fechaTweetCorrecta) {
+                String[] hashtagdia = tweet.getHashtags();
+
+
+            }
+
+        }
+
+
+    }
 
 
     public void top15PilotosConMasTweets() {
@@ -172,6 +201,23 @@ public class Sistema {
                 case "2":
                     break;
                 case "3":
+                    String dia_1;
+                    String mes_1;
+                    String anio_1;
+                    System.out.println("Introduzca el dia: ");
+                    dia_1=sn.next();
+                    System.out.print("Introduzca el mes: ");
+                    mes_1 = sn.next();
+                    System.out.print("Introduzca el año: ");
+                    anio_1 = sn.next();
+                    long startTime_3=System.nanoTime();
+                    sistema.Cantidad_de_hashtags_distintos_para_un_día_dado(anio_1,mes_1,dia_1);
+                    long endTime_3=System.nanoTime();
+                    double durationInSeconds_3 = (endTime_3 - startTime_3) / 1_000_000_000.0;
+                    double roundedDuration_3 = Math.round(durationInSeconds_3 * 10.0) / 10.0;
+                    System.out.println();
+                    System.out.println("Cantidad de hashtags distintos para un día dado. Duración: " + roundedDuration_3 + " segundos.");
+
                     break;
                 case "4":
                     break;
