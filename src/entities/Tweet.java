@@ -9,7 +9,7 @@ public class Tweet {
     private final boolean isRetweet;
     private final String date;
     private final User user;
-    private String[] hashtags;
+    private final String[] hashtags;
 
     public Tweet(long id, String content, String source, boolean isRetweet, String date, User user, String[] hashtag) {
         this.id = id;
