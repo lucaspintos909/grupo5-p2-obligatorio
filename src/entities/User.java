@@ -2,7 +2,7 @@ package entities;
 
 public class User {
     private final String name;
-    private int cantidadTweets = 1;
+    private Integer cantidadTweets = 1;
     private boolean verificado = false;
 
     public User(String name, boolean verificado) {
@@ -20,5 +20,9 @@ public class User {
 
     public void sumCantidadTweets() {
         this.cantidadTweets += 1;
+    }
+
+    public boolean isVerificado() {
+        return verificado;
     }
 }

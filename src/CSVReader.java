@@ -67,7 +67,7 @@ public class CSVReader {
                 userNames.add(tweetAIngresar[1]);
             } else {
                 usuarioDelTweet = usuarioIngresado;
-                usuarioIngresado.sumCantidadTweets();
+                usuarioDelTweet.sumCantidadTweets();
             }
             /* -------------------- ---------------- -------------------- */
 
