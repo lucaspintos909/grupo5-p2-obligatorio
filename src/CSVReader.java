@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import uy.edu.um.prog2.adt.LinkedList.LinkedList;
- import uy.edu.um.prog2.adt.Hash.Hash;
+import uy.edu.um.prog2.adt.Hash.Hash;
 
 import entities.Tweet;
 import entities.Piloto;
@@ -71,10 +71,23 @@ public class CSVReader {
             }
             /* -------------------- ---------------- -------------------- */
 
-            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]), tweetAIngresar[10].toLowerCase(), tweetAIngresar[12], Boolean.parseBoolean(tweetAIngresar[13]), tweetAIngresar[9], usuarioDelTweet);
+            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]),
+                    tweetAIngresar[10].toLowerCase(),
+                    tweetAIngresar[12],
+                    Boolean.parseBoolean(tweetAIngresar[13]),
+                    tweetAIngresar[9],
+                    usuarioDelTweet,
+                    stringToArray(tweetAIngresar[11]));
             tweets_contador++;
         }
 
         return new CSVReaderReturn(tweets, users, userNames);
+    }
+
+    public static String[] stringToArray(String cadena) {
+        cadena = cadena.replace("[", "").replace("]", ""); // Remover los corchetes
+        cadena = cadena.replace("'", ""); // Remover las comillas
+
+        return cadena.split(",");
     }
 }
