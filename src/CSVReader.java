@@ -18,16 +18,16 @@ public class CSVReader {
         Piloto[] pilotos = new Piloto[20];
         while ((linea = br.readLine()) != null) {
 
-            pilotos[contador] = new Piloto(linea.toLowerCase());
-            //System.out.println(linea);
+            pilotos[contador] = new Piloto(linea);
+
             contador++;
         }
         return pilotos;
     }
 
-    public static Tweet[] readTweets() throws IOException {
+    public static CSVReaderReturn readCSV() throws IOException {
 
-        String path = "/home/lpintos/proyectos/grupo5-p2-obligatorio/src/f1_dataset.csv";
+        String path = "src/f1_dataset.csv";
         String linea;
         BufferedReader br = new BufferedReader(new FileReader(path));
 
@@ -35,15 +35,12 @@ public class CSVReader {
         int tweets_contador = 0;
 
         Tweet[] tweets = new Tweet[650_000];
-
+        Hash<String, User> users = new Hash<>(130_000);
+        LinkedList<String> userNames = new LinkedList<>();
+        br.readLine();
         while ((linea = br.readLine()) != null) {
             String[] tweetAIngresar;
-            segunda++;
-            if (segunda == 0) {
-                /*tweets[0] = linea;*/
-                tweets_contador++;
-                continue;
-            }
+
             for (int posibilidad = 0; posibilidad < 280; posibilidad++) {
                 if ((linea.split(",")[linea.split(",").length - 1].equals("True") || linea.split(",")[linea.split(",").length - 1].equals("False"))) {
                     break;
@@ -56,13 +53,28 @@ public class CSVReader {
 
             }
             tweetAIngresar = linea.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-            if (tweetAIngresar.length != 14){
+            if (tweetAIngresar.length != 14) {
                 continue;
             }
-            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]), tweetAIngresar[10].toLowerCase(), tweetAIngresar[12], Boolean.parseBoolean(tweetAIngresar[13]), tweetAIngresar[9]);
+
+            /* -------------------- Leyendo usuarios -------------------- */
+            User nuevoUsuario = new User(tweetAIngresar[1], Boolean.parseBoolean(tweetAIngresar[8]));
+            User usuarioIngresado = users.putIfAbsent(tweetAIngresar[1], nuevoUsuario);
+            User usuarioDelTweet;
+
+            if (usuarioIngresado == null) {
+                usuarioDelTweet = nuevoUsuario;
+                userNames.add(tweetAIngresar[1]);
+            } else {
+                usuarioDelTweet = usuarioIngresado;
+                usuarioIngresado.sumCantidadTweets();
+            }
+            /* -------------------- ---------------- -------------------- */
+
+            tweets[tweets_contador] = new Tweet(Long.parseLong(tweetAIngresar[0]), tweetAIngresar[10].toLowerCase(), tweetAIngresar[12], Boolean.parseBoolean(tweetAIngresar[13]), tweetAIngresar[9], usuarioDelTweet);
             tweets_contador++;
         }
 
-        return tweets;
+        return new CSVReaderReturn(tweets, users, userNames);
     }
 }
