@@ -1,12 +1,17 @@
 import entities.Piloto;
 import uy.edu.um.prog2.adt.Hash.Hash;
+import uy.edu.um.prog2.adt.LinkedList.LinkedList;
 import entities.Tweet;
 import entities.User;
+
 import java.util.Scanner;
 
 public class Sistema {
     Tweet[] tweets;
     Piloto[] pilotos;
+    Hash<String, User> users;
+    LinkedList<String> userNames;
+
 
     public Sistema() {
         try {
@@ -15,7 +20,16 @@ public class Sistema {
             long startTime = System.nanoTime();
             System.out.println("Leyendo tweets del csv...");
 
-            this.tweets = CSVReader.readTweets();
+            CSVReaderReturn csvReturn = CSVReader.readCSV();
+
+            this.tweets = csvReturn.tweets;
+            this.users = csvReturn.users;
+            this.userNames = csvReturn.userNames;
+
+            int contador = 0;
+            for (Tweet tweet : csvReturn.tweets) {
+                if (tweet != null) contador++;
+            }
 
             long endTime = System.nanoTime();
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
@@ -59,7 +73,7 @@ public class Sistema {
                     if (nombreCompletoPiloto.length == 3) {
                         apellido += " " + nombreCompletoPiloto[2];
                     }
-                    boolean esMencionado = tweetText.contains(nombre) || tweetText.contains(apellido);
+                    boolean esMencionado = tweetText.contains(nombre.toLowerCase()) || tweetText.contains(apellido.toLowerCase());
 
                     /* Si la fecha coincide y el piloto es mencionado */
                     if (esMencionado) {
@@ -76,62 +90,40 @@ public class Sistema {
         }
         /* ---------------------------- Fin contador ---------------------------- */
 
-        int n = pilotos.length;
-        boolean swapped;
+        QuickSort.quickSort(pilotos, contadorPilotos);
 
-        for (int i = 0; i < n - 1; i++) {
-            swapped = false;
-
-            for (int j = 0; j < n - i - 1; j++) {
-                int actual = contadorPilotos.get(pilotos[j].getName()).getValue();
-                int siguiente = contadorPilotos.get(pilotos[j + 1].getName()).getValue();
-                if (actual < siguiente) {
-                    // Swap pilotos[j] and pilotos[j + 1]
-                    Piloto temp = pilotos[j];
-                    pilotos[j] = pilotos[j + 1];
-                    pilotos[j + 1] = temp;
-                    swapped = true;
-                }
-            }
-
-            // If no two elements were swapped in the inner loop, the copiaPilotos is already sorted
-            if (!swapped) {
-                break;
-            }
-        }
-        /*QuickSort.quickSort(pilotos, contadorPilotos);*/
         for (int i = 0; i < 10; i++) {
-            System.out.println((i + 1) + " -> " + pilotos[i].getName() + ": " + contadorPilotos.get(pilotos[i].getName()).getValue());
+            System.out.println("Top " + (i + 1) + " -> " + pilotos[i].getName() + " - Cantidad de menciones: " + contadorPilotos.get(pilotos[i].getName()).getValue());
         }
     }
+
     public void Cantidad_de_tweets(String palabra) {
 
-        Integer contador_palbras=0;
+        Integer contador_palbras = 0;
         for (Tweet tweet : tweets) {
             if (tweet == null) {
                 continue;
             }
             String tweetText = tweet.getContent();
             boolean esMencionado = tweetText.contains(palabra);
-            if (esMencionado){
+            if (esMencionado) {
                 contador_palbras++;
             }
 
-            }
-        System.out.println(contador_palbras+" es el numero de twwets que contienen: "+palabra);
         }
+        System.out.println(contador_palbras + " es el numero de twwets que contienen: " + palabra);
+    }
 
 
+    public void top15PilotosConMasTweets() {
 
-
-
+    }
 
     public static void main(String[] args) {
 
-        Scanner sn=new Scanner(System.in);
-        boolean salir=false;
-        int opcion;
-
+        Scanner sn = new Scanner(System.in);
+        boolean salir = false;
+        String opcion;
 
 
         long startTime = System.nanoTime();
@@ -139,10 +131,10 @@ public class Sistema {
         long endTime = System.nanoTime();
         double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
         double roundedDuration = Math.round(durationInSeconds * 10.0) / 10.0;
-        System.out.println("Duración en leer el CSV "+roundedDuration+" Segundos");
+        System.out.println("Duración en leer el CSV " + roundedDuration + " Segundos");
         System.out.println();
 
-        while (!salir){
+        while (!salir) {
             System.out.println();
             System.out.println("1-Top 10 pilotos mencionados");
             System.out.println("2-Top 15 usuarios con más tweets");
@@ -153,57 +145,57 @@ public class Sistema {
             System.out.println("7-Salir");
             System.out.println();
 
-            System.out.println("introduce un numero: ");
-            opcion= sn.nextInt();
+            System.out.print("Ingrese una opción: ");
+            opcion = sn.next();
 
-
-            switch (opcion){
-                case 1:
+            switch (opcion) {
+                case "1":
                     String mes;
-                    String año;
+                    String anio;
 
-                    System.out.println("Introduzca el mes ");
-                    mes= String.valueOf(sn.nextInt());
-                    System.out.println("Introduzca el año ");
-                    año= String.valueOf(sn.nextInt());
+                    System.out.print("Introduzca el mes: ");
+                    mes = sn.next();
+                    System.out.print("Introduzca el año: ");
+                    anio = sn.next();
                     System.out.println("Top 10 pilotos mencionados...");
                     System.out.println();
                     long startTime_1 = System.nanoTime();
-                    sistema.top10PilotosActivos(mes,año);
+
+                    sistema.top10PilotosActivos(mes, anio);
+
                     long endTime_1 = System.nanoTime();
                     double durationInSeconds_1 = (endTime_1 - startTime_1) / 1_000_000_000.0;
                     double roundedDuration_1 = Math.round(durationInSeconds_1 * 10.0) / 10.0;
                     System.out.println();
                     System.out.println("Top 10 pilotos mencionados. Duración: " + roundedDuration_1 + " segundos.");
                     break;
-                case 2:
+                case "2":
                     break;
-                case 3:
+                case "3":
                     break;
-                case 4:
+                case "4":
                     break;
-                case 5:
+                case "5":
                     break;
-                case 6:
+                case "6":
                     String palabra;
                     System.out.println("introduzca la palbra o frase");
-                    palabra= sn.next();
+                    palabra = sn.next();
                     long startTime_6 = System.nanoTime();
                     sistema.Cantidad_de_tweets(palabra);
                     long endTime_6 = System.nanoTime();
                     double durationInSeconds_6 = (endTime_6 - startTime_6) / 1_000_000_000.0;
                     double roundedDuration_6 = Math.round(durationInSeconds_6 * 10.0) / 10.0;
                     System.out.println();
-                    System.out.println("Cantidad de tweets con una palabra o frase específicos. Duración: "+roundedDuration_6+" segundos");
+                    System.out.println("Cantidad de tweets con una palabra o frase específicos. Duración: " + roundedDuration_6 + " segundos");
                     break;
-                case 7:
-                    salir=true;
+                case "7":
+                    salir = true;
                     break;
                 default:
                     System.out.println("Las opciones son entre 1 y 7");
 
             }
-
 
 
         }
