@@ -3,6 +3,7 @@ import uy.edu.um.prog2.adt.Hash.Hash;
 import uy.edu.um.prog2.adt.LinkedList.LinkedList;
 import entities.Tweet;
 import entities.User;
+import uy.edu.um.prog2.adt.LinkedList.Nodo;
 
 import java.util.Scanner;
 
@@ -116,7 +117,21 @@ public class Sistema {
 
 
     public void top15PilotosConMasTweets() {
+        String[] userNameArray = new String[userNames.size];
+        Nodo<String> aux = userNames.head;
+        int i = 0;
+        while (aux != null) {
+            userNameArray[i] = aux.variable;
+            aux = aux.next;
+            i++;
+        }
+        MergeSort.MergeSort(userNameArray, users);
 
+        for (int j = 0; j < 15; j++) {
+            String nombre = userNameArray[userNameArray.length - 1 -j];
+            User usuario = users.get(nombre).getValue();
+            System.out.println("Top " + (j + 1) + " -> " + nombre + ". Cantidad de tweets: " + usuario.getCantidadTweets() + ". Verificado: " + usuario.isVerificado());
+        }
     }
 
     public static void main(String[] args) {
@@ -170,6 +185,17 @@ public class Sistema {
                     System.out.println("Top 10 pilotos mencionados. Duración: " + roundedDuration_1 + " segundos.");
                     break;
                 case "2":
+                    System.out.println("Top 15 con mas tweets...");
+                    System.out.println();
+                    long startTime_2 = System.nanoTime();
+
+                    sistema.top15PilotosConMasTweets();
+
+                    long endTime_2 = System.nanoTime();
+                    double durationInSeconds_2 = (endTime_2 - startTime_2) / 1_000_000_000.0;
+                    double roundedDuration_2 = Math.round(durationInSeconds_2 * 10.0) / 10.0;
+                    System.out.println();
+                    System.out.println("Top 15 con mas tweets. Duración: " + roundedDuration_2 + " segundos.");
                     break;
                 case "3":
                     break;
