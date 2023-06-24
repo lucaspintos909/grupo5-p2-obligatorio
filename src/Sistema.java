@@ -99,23 +99,22 @@ public class Sistema {
         }
     }
 
-    public void Cantidad_de_tweets(String palabra) {
-
-        Integer contador_palbras = 0;
+    public void cantidadDeTweets(String palabra) {
+        Integer contadorPalabras = 0;
         for (Tweet tweet : tweets) {
             if (tweet == null) {
                 continue;
             }
             String tweetText = tweet.getContent();
-            boolean esMencionado = tweetText.contains(palabra);
+            boolean esMencionado = tweetText.contains(palabra.toLowerCase());
             if (esMencionado) {
-                contador_palbras++;
+                contadorPalabras++;
             }
 
         }
-        System.out.println(contador_palbras + " es el numero de twwets que contienen: " + palabra);
+        System.out.println(contadorPalabras + " es el numero de tweets que contienen: " + palabra);
     }
-    public void Cantidad_de_hashtags_distintos_para_un_día_dado(String anio,String mes,String dia){
+    public void cantidadDeHashtagsDistintosParaUnDiaDado(String anio, String mes, String dia){
 
         Hash<String[], Integer> contadorHashtag = new Hash<>(10000);
         for (Tweet tweet : tweets) {
@@ -237,7 +236,7 @@ public class Sistema {
                     System.out.print("Introduzca el año: ");
                     anio_1 = sn.next();
                     long startTime_3=System.nanoTime();
-                    sistema.Cantidad_de_hashtags_distintos_para_un_día_dado(anio_1,mes_1,dia_1);
+                    sistema.cantidadDeHashtagsDistintosParaUnDiaDado(anio_1,mes_1,dia_1);
                     long endTime_3=System.nanoTime();
                     double durationInSeconds_3 = (endTime_3 - startTime_3) / 1_000_000_000.0;
                     double roundedDuration_3 = Math.round(durationInSeconds_3 * 10.0) / 10.0;
@@ -254,7 +253,7 @@ public class Sistema {
                     System.out.println("introduzca la palbra o frase");
                     palabra = sn.next();
                     long startTime_6 = System.nanoTime();
-                    sistema.Cantidad_de_tweets(palabra);
+                    sistema.cantidadDeTweets(palabra);
                     long endTime_6 = System.nanoTime();
                     double durationInSeconds_6 = (endTime_6 - startTime_6) / 1_000_000_000.0;
                     double roundedDuration_6 = Math.round(durationInSeconds_6 * 10.0) / 10.0;
