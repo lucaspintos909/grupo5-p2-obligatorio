@@ -5,10 +5,17 @@ public class Hash<K, T> implements MyHash<K, T> {
     private int actualSize;
     private final HashNode<K, T>[] hash;
 
+    private int defaultSize = 130_000;
 
     public Hash(int initSize) {
         this.hash = new HashNode[initSize];
         this.hashSize = initSize;
+        this.initHash();
+    }
+
+    public Hash() {
+        this.hash = new HashNode[defaultSize];
+        this.hashSize = defaultSize;
         this.initHash();
     }
 
