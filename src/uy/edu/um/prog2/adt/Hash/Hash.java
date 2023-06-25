@@ -83,7 +83,7 @@ public class Hash<K, T> implements MyHash<K, T> {
         return null;  // Retorna null si la clave no se encuentra.
     }
 
-/*    public void put(K key, T value) {
+    public void put(K key, T value) {
 
         int index = hashCode(key);
 
@@ -97,7 +97,7 @@ public class Hash<K, T> implements MyHash<K, T> {
         }
 
         hash[index] = new HashNode<>(key, value);
-    }*/
+    }
 
     public T putIfAbsent(K key, T value) {
         int index = hashCode(key);
