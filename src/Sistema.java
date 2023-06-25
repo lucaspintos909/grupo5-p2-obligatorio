@@ -1,3 +1,4 @@
+import entities.Hashtag;
 import entities.Piloto;
 import uy.edu.um.prog2.adt.Hash.Hash;
 import entities.Tweet;
@@ -168,8 +169,8 @@ public class Sistema {
 
             if (fechaTweetCorrecta) {
                 try {
-                    for (String hashtag : tweet.getHashtags()) {
-                        contadorHashtag.putIfAbsent(hashtag, 0);
+                    for (Hashtag hashtag : tweet.getHashtags()) {
+                        contadorHashtag.putIfAbsent(hashtag.getText(), 0);
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -215,15 +216,15 @@ public class Sistema {
 
             if (fechaTweetCorrecta) {
                 try {
-                    for (String hashtag : tweet.getHashtags()) {
-                        if (!hashtag.equalsIgnoreCase("f1")) {
-                            Integer contadorActual = contadorHashtag.putIfAbsent(hashtag, 0);
+                    for (Hashtag hashtag : tweet.getHashtags()) {
+                        if (!hashtag.getText().equalsIgnoreCase("f1")) {
+                            Integer contadorActual = contadorHashtag.putIfAbsent(hashtag.getText(), 0);
                             if (contadorActual != null) {
                                 if (contadorActual >= contadorDeOcurrencias) {
-                                    hashtagMasUsado = hashtag;
+                                    hashtagMasUsado = hashtag.getText();
                                     contadorDeOcurrencias = contadorActual;
                                 }
-                                contadorHashtag.put(hashtag, contadorActual + 1);
+                                contadorHashtag.put(hashtag.getText(), contadorActual + 1);
                             }
                         }
                     }
@@ -232,8 +233,11 @@ public class Sistema {
                 }
             }
         }
-
-        System.out.println("| El hashtag mas usado para el día " + fecha + " es: #" + hashtagMasUsado);
+        if (contadorDeOcurrencias != 0) {
+            System.out.println("| El hashtag mas usado para el día " + fecha + " es: #" + hashtagMasUsado + ", cantidad: " + contadorDeOcurrencias);
+        }else{
+            System.out.println("| No hay hashtags para el dia dado.");
+        }
 
         long endTime = System.nanoTime();
         double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
@@ -264,6 +268,22 @@ public class Sistema {
 
     public void top7CuentasConMasFavoritos() {
         long startTime = System.nanoTime();
+
+        /*
+         * Esto lo hago porque para el mismo usuario, en diferentes tweets puede llegar a tener más favoritos.
+         * Entonces lo que hago es dejar la cantidad más grande
+         */
+        /*for (Tweet tweet : tweets) {
+            if(tweet == null){
+                continue;
+            }
+            User usuarioTweet = users.get(tweet.getUser().getName()).getValue();
+            int cantidadFavoritos = tweet.getUser().getCantidadFavoritos();
+
+            if (usuarioTweet.getCantidadFavoritos() < cantidadFavoritos) {
+                usuarioTweet.setCantidadFavoritos(cantidadFavoritos);
+            }
+        }*/
 
         QuickSortUsuariosFavoritos.quickSort(userNames, users);
 
@@ -362,6 +382,10 @@ public class Sistema {
                     System.out.println("-----------------------------------------------------------------------");
                     break;
                 case "5":
+                    System.out.println("-----------------------------------------------------------------------");
+                    System.out.println("| 5) Top 7 cuentas con más favoritos.                                 |");
+                    System.out.println("-----------------------------------------------------------------------");
+                    System.out.println("| ");
                     sistema.top7CuentasConMasFavoritos();
                     break;
                 case "6":

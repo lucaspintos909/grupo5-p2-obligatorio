@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import entities.Hashtag;
 import uy.edu.um.prog2.adt.LinkedList.LinkedList;
 import uy.edu.um.prog2.adt.Hash.Hash;
 
@@ -85,7 +86,7 @@ public class CSVReader {
                     Boolean.parseBoolean(tweetAIngresar[13]),
                     tweetAIngresar[9],
                     usuarioDelTweet,
-                    stringToArray(tweetAIngresar[11]),
+                    stringToHashtagArray(tweetAIngresar[11]),
                     tweetAIngresar[7]
             );
             tweets_contador++;
@@ -94,8 +95,14 @@ public class CSVReader {
         return new CSVReaderReturn(tweets, users, userNames);
     }
 
-    public static String[] stringToArray(String cadena) {
+    public static Hashtag[] stringToHashtagArray(String cadena) {
         cadena = cadena.replaceAll("(\\s+|'|\"|\\[|])", "");
-        return cadena.split(",");
+        String[] hashtags = cadena.split(",");
+        Hashtag[] hashtagsArray = new Hashtag[hashtags.length];
+
+        for (int i = 0; i < hashtags.length; i++) {
+            hashtagsArray[i] = new Hashtag(hashtags[i]);
+        }
+        return hashtagsArray;
     }
 }

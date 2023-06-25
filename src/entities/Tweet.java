@@ -7,17 +7,18 @@ public class Tweet {
     private final boolean isRetweet;
     private final String date;
     private final User user;
-    private final String[] hashtags;
+    /*private final String[] hashtags;*/
+    private final Hashtag[] hashtags;
     private final String usuariosFavoritos;
 
-    public Tweet(long id, String content, String source, boolean isRetweet, String date, User user, String[] hashtag, String usuariosFavoritos) {
+    public Tweet(long id, String content, String source, boolean isRetweet, String date, User user, Hashtag[] hashtags, String usuariosFavoritos) {
         this.id = id;
         this.content = content.toLowerCase();
         this.source = source;
         this.isRetweet = isRetweet;
         this.date = date;
         this.user = user;
-        this.hashtags = hashtag;
+        this.hashtags = hashtags;
         this.usuariosFavoritos = usuariosFavoritos;
     }
 
@@ -44,7 +45,8 @@ public class Tweet {
     public User getUser() {
         return user;
     }
-    public String[] getHashtags() {
+
+    public Hashtag[] getHashtags() {
         return hashtags;
     }
 
