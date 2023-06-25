@@ -77,7 +77,9 @@ public class CSVReader {
                     Boolean.parseBoolean(tweetAIngresar[13]),
                     tweetAIngresar[9],
                     usuarioDelTweet,
-                    stringToArray(tweetAIngresar[11]));
+                    stringToArray(tweetAIngresar[11]),
+                    tweetAIngresar[7]
+                    );
             tweets_contador++;
         }
 
@@ -85,9 +87,7 @@ public class CSVReader {
     }
 
     public static String[] stringToArray(String cadena) {
-        cadena = cadena.replace("[", "").replace("]", ""); // Remover los corchetes
-        cadena = cadena.replace("'", ""); // Remover las comillas
-
+        cadena = cadena.replaceAll("(\\s+|'|\"|\\[|])", "");
         return cadena.split(",");
     }
 }
