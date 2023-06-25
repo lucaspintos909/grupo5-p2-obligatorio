@@ -58,7 +58,12 @@ public class CSVReader {
             }
 
             /* -------------------- Leyendo usuarios -------------------- */
-            User nuevoUsuario = new User(tweetAIngresar[1], Boolean.parseBoolean(tweetAIngresar[8]));
+            int cantidadFavoritos = 0;
+            try {
+                cantidadFavoritos = Integer.parseInt(tweetAIngresar[7].split("\\.")[0]);
+            } catch (Exception ignored) {}
+
+            User nuevoUsuario = new User(tweetAIngresar[1], Boolean.parseBoolean(tweetAIngresar[8]), cantidadFavoritos);
             User usuarioIngresado = users.putIfAbsent(tweetAIngresar[1], nuevoUsuario);
             User usuarioDelTweet;
 
@@ -68,6 +73,9 @@ public class CSVReader {
             } else {
                 usuarioDelTweet = usuarioIngresado;
                 usuarioDelTweet.sumCantidadTweets();
+                if (usuarioDelTweet.getCantidadFavoritos() < cantidadFavoritos) {
+                    usuarioDelTweet.setCantidadFavoritos(cantidadFavoritos);
+                }
             }
             /* -------------------- ---------------- -------------------- */
 
@@ -79,7 +87,7 @@ public class CSVReader {
                     usuarioDelTweet,
                     stringToArray(tweetAIngresar[11]),
                     tweetAIngresar[7]
-                    );
+            );
             tweets_contador++;
         }
 
