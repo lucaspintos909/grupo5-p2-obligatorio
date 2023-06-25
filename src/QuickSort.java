@@ -1,4 +1,5 @@
 import entities.Piloto;
+import entities.User;
 import uy.edu.um.prog2.adt.Hash.Hash;
 
 public class QuickSort {
@@ -6,7 +7,7 @@ public class QuickSort {
         quickSort(array, 0, array.length - 1, contador);
     }
 
-    private static void quickSort(Piloto[] array, int low, int high,  Hash<String, Integer> contador) {
+    private static void quickSort(Piloto[] array, int low, int high, Hash<String, Integer> contador) {
         if (low < high) {
             int pivotIndex = partition(array, low, high, contador);
             quickSort(array, low, pivotIndex - 1, contador);
@@ -35,20 +36,4 @@ public class QuickSort {
         array[i] = array[j];
         array[j] = temp;
     }
-
-/*    public static void main(String[] args) {
-        Integer[] numbers = {5, 2, 10, 1, 6};
-
-        System.out.println("Array before sorting:");
-        for (int number : numbers) {
-            System.out.print(number + " ");
-        }
-
-        quickSort(numbers);
-
-        System.out.println("\nArray after sorting:");
-        for (int number : numbers) {
-            System.out.print(number + " ");
-        }
-    }*/
 }
