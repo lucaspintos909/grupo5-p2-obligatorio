@@ -1,7 +1,5 @@
 package entities;
 
-import java.lang.reflect.Array;
-
 public class Tweet {
     private final long id;
     private final String content;
@@ -10,8 +8,9 @@ public class Tweet {
     private final String date;
     private final User user;
     private final String[] hashtags;
+    private final String usuariosFavoritos;
 
-    public Tweet(long id, String content, String source, boolean isRetweet, String date, User user, String[] hashtag) {
+    public Tweet(long id, String content, String source, boolean isRetweet, String date, User user, String[] hashtag, String usuariosFavoritos) {
         this.id = id;
         this.content = content.toLowerCase();
         this.source = source;
@@ -19,6 +18,7 @@ public class Tweet {
         this.date = date;
         this.user = user;
         this.hashtags = hashtag;
+        this.usuariosFavoritos = usuariosFavoritos;
     }
 
     public long getId() {
@@ -46,5 +46,9 @@ public class Tweet {
     }
     public String[] getHashtags() {
         return hashtags;
+    }
+
+    public String getUsuariosFavoritos() {
+        return usuariosFavoritos;
     }
 }
