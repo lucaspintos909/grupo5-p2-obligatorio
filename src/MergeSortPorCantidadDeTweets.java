@@ -1,7 +1,7 @@
 import entities.User;
 import uy.edu.um.prog2.adt.Hash.Hash;
 
-public class MergeSort {
+public class MergeSortPorCantidadDeTweets {
     public static void MergeSort(String[] listaUsuarios, Hash<String, User> hashUsers) {
         int largo = listaUsuarios.length;
         if (largo <= 1) return;

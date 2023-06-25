@@ -1,8 +1,7 @@
 import entities.Piloto;
-import entities.User;
 import uy.edu.um.prog2.adt.Hash.Hash;
 
-public class QuickSort {
+public class QuickSortPilotosMasMencionados {
     public static void quickSort(Piloto[] array, Hash<String, Integer> contador) {
         quickSort(array, 0, array.length - 1, contador);
     }
