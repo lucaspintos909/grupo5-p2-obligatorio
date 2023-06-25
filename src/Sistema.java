@@ -5,7 +5,6 @@ import entities.Tweet;
 import entities.User;
 import uy.edu.um.prog2.adt.LinkedList.Nodo;
 
-
 import java.util.Scanner;
 
 public class Sistema {
@@ -114,35 +113,89 @@ public class Sistema {
         }
         System.out.println(contadorPalabras + " es el numero de tweets que contienen: " + palabra);
     }
-    public void cantidadDeHashtagsDistintosParaUnDiaDado(String anio, String mes, String dia){
 
-        Hash<String[], Integer> contadorHashtag = new Hash<>(10000);
+    public void cantidadDeHashtagsDistintosParaUnDiaDado(String fecha) {
+        String[] fechaSeparada = fecha.split("-");
+
+        if (fechaSeparada.length != 3) {
+            System.out.println("Fecha ingresada con el formato incorrecto.");
+            return;
+        }
+
+        String dia = fechaSeparada[2];
+        String mes = fechaSeparada[1];
+        String anio = fechaSeparada[0];
+
+        Hash<String, Integer> contadorHashtag = new Hash<>(15000);
+
         for (Tweet tweet : tweets) {
             if (tweet == null) {
                 continue;
             }
-            try {
-                contadorHashtag.add(tweet.getHashtags(), 0);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            /* Para que no agarre las comas que pueda haber en el texto */
-            String[] fecha = tweet.getDate().split("-");
-            boolean fechaTweetCorrecta = fecha[0].contains(anio) && fecha[1].contains(mes)&&fecha[2].contains(dia);
-            /*System.out.println(tweet.getDate());*/
-            String[]hashtag= tweet.getHashtags();
+
+            String[] fechaTweet = tweet.getDate().split("-");
+            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].split(" ")[0].contains(dia);
 
             if (fechaTweetCorrecta) {
-                String[] hashtagdia = tweet.getHashtags();
-
-
+                try {
+                    for (String hashtag : tweet.getHashtags()) {
+                        contadorHashtag.putIfAbsent(hashtag, 0);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
-
         }
-
-
+        System.out.println("Cantidad de hashtags diferentes para el día " + fecha + ": " + contadorHashtag.size());
     }
 
+    public void hashtagMasUsadoParaUnDiaDado(String fecha) {
+        String[] fechaSeparada = fecha.split("-");
+
+        if (fechaSeparada.length != 3) {
+            System.out.println("Fecha ingresada con el formato incorrecto.");
+            return;
+        }
+
+        String dia = fechaSeparada[2];
+        String mes = fechaSeparada[1];
+        String anio = fechaSeparada[0];
+
+        Hash<String, Integer> contadorHashtag = new Hash<>(15000);
+
+        String hashtagMasUsado = "";
+        int contadorDeOcurrencias = 0;
+
+        for (Tweet tweet : tweets) {
+            if (tweet == null) {
+                continue;
+            }
+
+            String[] fechaTweet = tweet.getDate().split("-");
+            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].split(" ")[0].contains(dia);
+
+            if (fechaTweetCorrecta) {
+                try {
+                    for (String hashtag : tweet.getHashtags()) {
+                        if (!hashtag.toLowerCase().equals("f1")) {
+                            Integer contadorActual = contadorHashtag.putIfAbsent(hashtag, 0);
+                            if (contadorActual != null) {
+                                if (contadorActual >= contadorDeOcurrencias) {
+                                    hashtagMasUsado = hashtag;
+                                    contadorDeOcurrencias = contadorActual;
+                                }
+                                contadorHashtag.put(hashtag, contadorActual + 1);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+
+        System.out.println("El hashtag mas usado para el día " + fecha + " es: " + hashtagMasUsado);
+    }
 
     public void top15PilotosConMasTweets() {
         String[] userNameArray = new String[userNames.size];
@@ -156,7 +209,7 @@ public class Sistema {
         MergeSort.MergeSort(userNameArray, users);
 
         for (int j = 0; j < 15; j++) {
-            String nombre = userNameArray[userNameArray.length - 1 -j];
+            String nombre = userNameArray[userNameArray.length - 1 - j];
             User usuario = users.get(nombre).getValue();
             System.out.println("Top " + (j + 1) + " -> " + nombre + ". Cantidad de tweets: " + usuario.getCantidadTweets() + ". Verificado: " + usuario.isVerificado());
         }
@@ -226,31 +279,34 @@ public class Sistema {
                     System.out.println("Top 15 con mas tweets. Duración: " + roundedDuration_2 + " segundos.");
                     break;
                 case "3":
-                    String dia_1;
-                    String mes_1;
-                    String anio_1;
-                    System.out.println("Introduzca el dia: ");
-                    dia_1=sn.next();
-                    System.out.print("Introduzca el mes: ");
-                    mes_1 = sn.next();
-                    System.out.print("Introduzca el año: ");
-                    anio_1 = sn.next();
-                    long startTime_3=System.nanoTime();
-                    sistema.cantidadDeHashtagsDistintosParaUnDiaDado(anio_1,mes_1,dia_1);
-                    long endTime_3=System.nanoTime();
+                    String fecha;
+                    System.out.print("Ingrese la fecha en formato 'YYYY-MM-DD': ");
+                    fecha = sn.next();
+                    long startTime_3 = System.nanoTime();
+                    sistema.cantidadDeHashtagsDistintosParaUnDiaDado(fecha);
+                    long endTime_3 = System.nanoTime();
                     double durationInSeconds_3 = (endTime_3 - startTime_3) / 1_000_000_000.0;
                     double roundedDuration_3 = Math.round(durationInSeconds_3 * 10.0) / 10.0;
                     System.out.println();
                     System.out.println("Cantidad de hashtags distintos para un día dado. Duración: " + roundedDuration_3 + " segundos.");
-
                     break;
                 case "4":
+                    String fecha2;
+                    System.out.print("Ingrese la fecha en formato 'YYYY-MM-DD': ");
+                    fecha2 = sn.next();
+                    long startTime_4 = System.nanoTime();
+                    sistema.hashtagMasUsadoParaUnDiaDado(fecha2);
+                    long endTime_4 = System.nanoTime();
+                    double durationInSeconds_4 = (endTime_4 - startTime_4) / 1_000_000_000.0;
+                    double roundedDuration_4 = Math.round(durationInSeconds_4 * 10.0) / 10.0;
+                    System.out.println();
+                    System.out.println("El hashtag mas usado para el día dado. Duración: " + roundedDuration_4 + " segundos.");
                     break;
                 case "5":
                     break;
                 case "6":
                     String palabra;
-                    System.out.println("introduzca la palbra o frase");
+                    System.out.print("Introduzca la palabra o frase: ");
                     palabra = sn.next();
                     long startTime_6 = System.nanoTime();
                     sistema.cantidadDeTweets(palabra);
