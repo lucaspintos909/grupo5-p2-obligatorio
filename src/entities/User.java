@@ -4,10 +4,12 @@ public class User {
     private final String name;
     private Integer cantidadTweets = 1;
     private boolean verificado = false;
+    private int cantidadFavoritos;
 
-    public User(String name, boolean verificado) {
+    public User(String name, boolean verificado, int cantidadFavoritos) {
         this.name = name;
         this.verificado = verificado;
+        this.cantidadFavoritos = cantidadFavoritos;
     }
 
     public String getName() {
@@ -24,5 +26,21 @@ public class User {
 
     public boolean isVerificado() {
         return verificado;
+    }
+
+    public void setCantidadTweets(Integer cantidadTweets) {
+        this.cantidadTweets = cantidadTweets;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
+    }
+
+    public int getCantidadFavoritos() {
+        return cantidadFavoritos;
+    }
+
+    public void setCantidadFavoritos(int cantidadFavoritos) {
+        this.cantidadFavoritos = cantidadFavoritos;
     }
 }
