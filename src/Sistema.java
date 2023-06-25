@@ -1,6 +1,5 @@
 import entities.Piloto;
 import uy.edu.um.prog2.adt.Hash.Hash;
-import uy.edu.um.prog2.adt.LinkedList.LinkedList;
 import entities.Tweet;
 import entities.User;
 import uy.edu.um.prog2.adt.LinkedList.Nodo;
@@ -11,7 +10,7 @@ public class Sistema {
     Tweet[] tweets;
     Piloto[] pilotos;
     Hash<String, User> users;
-    LinkedList<String> userNames;
+    String[] userNames;
 
 
     public Sistema() {
@@ -25,12 +24,18 @@ public class Sistema {
 
             this.tweets = csvReturn.tweets;
             this.users = csvReturn.users;
-            this.userNames = csvReturn.userNames;
 
-            int contador = 0;
-            for (Tweet tweet : csvReturn.tweets) {
-                if (tweet != null) contador++;
+            /* ------ Creando array de nombres de usuario ------ */
+            String[] userNameArray = new String[csvReturn.userNames.size];
+            Nodo<String> aux = csvReturn.userNames.head;
+            int i = 0;
+            while (aux != null) {
+                userNameArray[i] = aux.variable;
+                aux = aux.next;
+                i++;
             }
+            this.userNames = userNameArray;
+            /* ------------------------------------------------- */
 
             long endTime = System.nanoTime();
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
@@ -198,20 +203,22 @@ public class Sistema {
     }
 
     public void top15PilotosConMasTweets() {
-        String[] userNameArray = new String[userNames.size];
-        Nodo<String> aux = userNames.head;
-        int i = 0;
-        while (aux != null) {
-            userNameArray[i] = aux.variable;
-            aux = aux.next;
-            i++;
-        }
-        MergeSort.MergeSort(userNameArray, users);
+        MergeSort.MergeSort(userNames, users);
 
         for (int j = 0; j < 15; j++) {
-            String nombre = userNameArray[userNameArray.length - 1 - j];
+            String nombre = userNames[userNames.length - 1 - j];
             User usuario = users.get(nombre).getValue();
             System.out.println("Top " + (j + 1) + " -> " + nombre + ". Cantidad de tweets: " + usuario.getCantidadTweets() + ". Verificado: " + usuario.isVerificado());
+        }
+    }
+
+    public void top7CuentasConMasFavoritos() {
+
+        QuickSortUsuariosFavoritos.quickSort(userNames, users);
+
+        for (int i = 0; i < 7; i++) {
+            User usuario = users.get(userNames[i]).getValue();
+            System.out.println("TOP " + (i + 1) + " -> " + usuario.getName() + ", cantidad de favoritos: " + usuario.getCantidadFavoritos());
         }
     }
 
@@ -303,6 +310,7 @@ public class Sistema {
                     System.out.println("El hashtag mas usado para el día dado. Duración: " + roundedDuration_4 + " segundos.");
                     break;
                 case "5":
+                    sistema.top7CuentasConMasFavoritos();
                     break;
                 case "6":
                     String palabra;
