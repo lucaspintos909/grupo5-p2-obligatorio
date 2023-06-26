@@ -8,7 +8,7 @@
 
 ### Diagrama UML de clases de la solución:
 
-<img alt="Diagrama_UML" src="src/Diagrama de clases.jpg" width="547" />
+<img alt="Diagrama_UML" src="images/UMLprogramacion2.png" width="700" />
 
 
 ### Descripciones
