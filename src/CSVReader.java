@@ -32,7 +32,6 @@ public class CSVReader {
         String linea;
         BufferedReader br = new BufferedReader(new FileReader(path));
 
-        int segunda = 0;
         int tweets_contador = 0;
 
         Tweet[] tweets = new Tweet[650_000];
@@ -43,11 +42,13 @@ public class CSVReader {
             String[] tweetAIngresar;
 
             for (int posibilidad = 0; posibilidad < 280; posibilidad++) {
-                if ((linea.split(",")[linea.split(",").length - 1].equals("True") || linea.split(",")[linea.split(",").length - 1].equals("False"))) {
+                String[] lineaSpliteada = linea.split(",");
+                if ((lineaSpliteada[lineaSpliteada.length - 1].equals("True") || lineaSpliteada[lineaSpliteada.length - 1].equals("False"))) {
                     break;
                 } else {
                     linea += br.readLine();
-                    if ((linea.split(",")[linea.split(",").length - 1].equals("True") || linea.split(",")[linea.split(",").length - 1].equals("False"))) {
+                    lineaSpliteada = linea.split(",");
+                    if ((lineaSpliteada[lineaSpliteada.length - 1].equals("True") || lineaSpliteada[lineaSpliteada.length - 1].equals("False"))) {
                         break;
                     }
                 }

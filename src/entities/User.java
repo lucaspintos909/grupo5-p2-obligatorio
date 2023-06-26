@@ -28,13 +28,6 @@ public class User {
         return verificado;
     }
 
-    public void setCantidadTweets(Integer cantidadTweets) {
-        this.cantidadTweets = cantidadTweets;
-    }
-
-    public void setVerificado(boolean verificado) {
-        this.verificado = verificado;
-    }
 
     public int getCantidadFavoritos() {
         return cantidadFavoritos;

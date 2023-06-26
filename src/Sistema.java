@@ -67,7 +67,7 @@ public class Sistema {
                 continue;
             }
             /* Para que no agarre las comas que pueda haber en el texto */
-            String[] fecha = tweet.getDate().split("-");
+            String[] fecha = tweet.getDate();
             boolean fechaTweetCorrecta = fecha[0].contains(anio) && fecha[1].contains(mes);
             /*System.out.println(tweet.getDate());*/
             String tweetText = tweet.getContent();
@@ -75,13 +75,13 @@ public class Sistema {
             if (fechaTweetCorrecta) {
                 for (Piloto piloto : pilotos) {
                     /* Saco los datos necesarios */
-                    String[] nombreCompletoPiloto = piloto.getName().split(" ");
+                    String[] nombreCompletoPiloto = piloto.getSeparatedName();
                     String nombre = nombreCompletoPiloto[0];
                     String apellido = nombreCompletoPiloto[1];
                     if (nombreCompletoPiloto.length == 3) {
                         apellido += " " + nombreCompletoPiloto[2];
                     }
-                    boolean esMencionado = tweetText.contains(nombre.toLowerCase()) || tweetText.contains(apellido.toLowerCase());
+                    boolean esMencionado = tweetText.contains(nombre) || tweetText.contains(apellido);
 
                     /* Si la fecha coincide y el piloto es mencionado */
                     if (esMencionado) {
@@ -119,6 +119,7 @@ public class Sistema {
 
     public void cantidadDeTweets(String palabra) {
         long startTime = System.nanoTime();
+        palabra = palabra.toLowerCase();
 
         int contadorPalabras = 0;
         for (Tweet tweet : tweets) {
@@ -126,7 +127,7 @@ public class Sistema {
                 continue;
             }
             String tweetText = tweet.getContent();
-            boolean esMencionado = tweetText.contains(palabra.toLowerCase());
+            boolean esMencionado = tweetText.contains(palabra);
             if (esMencionado) {
                 contadorPalabras++;
             }
@@ -164,8 +165,8 @@ public class Sistema {
                 continue;
             }
 
-            String[] fechaTweet = tweet.getDate().split("-");
-            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].split(" ")[0].contains(dia);
+            String[] fechaTweet = tweet.getDate();
+            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].contains(dia);
 
             if (fechaTweetCorrecta) {
                 try {
@@ -211,8 +212,8 @@ public class Sistema {
                 continue;
             }
 
-            String[] fechaTweet = tweet.getDate().split("-");
-            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].split(" ")[0].contains(dia);
+            String[] fechaTweet = tweet.getDate();
+            boolean fechaTweetCorrecta = fechaTweet[0].contains(anio) && fechaTweet[1].contains(mes) && fechaTweet[2].contains(dia);
 
             if (fechaTweetCorrecta) {
                 try {
@@ -373,7 +374,7 @@ public class Sistema {
                     System.out.println("-----------------------------------------------------------------------");
 
                     String fecha2;
-                    System.out.print("Ingrese la fecha en formato 'YYYY-MM-DD': ");
+                    System.out.print("| Ingrese la fecha en formato 'YYYY-MM-DD': ");
                     fecha2 = sn.next();
                     System.out.println("| ");
 

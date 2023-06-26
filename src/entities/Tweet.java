@@ -5,7 +5,7 @@ public class Tweet {
     private final String content;
     private final String source;
     private final boolean isRetweet;
-    private final String date;
+    private final String[] date;
     private final User user;
     /*private final String[] hashtags;*/
     private final Hashtag[] hashtags;
@@ -16,7 +16,7 @@ public class Tweet {
         this.content = content.toLowerCase();
         this.source = source;
         this.isRetweet = isRetweet;
-        this.date = date;
+        this.date = date.split(" ")[0].split("-");
         this.user = user;
         this.hashtags = hashtags;
         this.usuariosFavoritos = usuariosFavoritos;
@@ -38,7 +38,7 @@ public class Tweet {
         return isRetweet;
     }
 
-    public String getDate() {
+    public String[] getDate() {
         return date;
     }
 
